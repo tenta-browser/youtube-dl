@@ -97,6 +97,7 @@ from .azmedien import (
 from .baidu import BaiduVideoIE
 from .bambuser import BambuserIE, BambuserChannelIE
 from .bandcamp import BandcampIE, BandcampAlbumIE, BandcampWeeklyIE
+from .bang import BangIE
 from .bbc import (
     BBCCoUkIE,
     BBCCoUkArticleIE,
