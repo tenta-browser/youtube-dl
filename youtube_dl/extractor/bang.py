@@ -81,9 +81,12 @@ class BangIE(InfoExtractor):
 
         self._sort_formats(formats)
 
+        age_limit = self._rta_search(webpage)
+
         return {
             'id': video_id,
             'title': title,
             'description': description,
-            'formats': formats
+            'formats': formats,
+            'age_limit': age_limit
         }
