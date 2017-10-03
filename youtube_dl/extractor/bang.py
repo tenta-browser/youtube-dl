@@ -13,7 +13,7 @@ from ..utils import (
 
 
 class BangIE(InfoExtractor):
-    _VALID_URL = r'https?://(?:www\.)?bang\.com/video/(?P<id>[0-9a-zA-Z]+)'
+    _VALID_URL = r'https?://(?:www\.)?bang\.com/video/(?P<id>[0-9a-zA-Z_-]+)'
     _TEST = {
         'url': 'https://www.bang.com/video/WUGl51yzxV9da2of/madison-hart-is-a-tiny-blonde-teen-taking-a-big-dick-and-thick-creampie',
         'md5': 'e0a3397c4b93c97f1b7dc5c1d12e3b86',
@@ -21,7 +21,8 @@ class BangIE(InfoExtractor):
             'id': 'WUGl51yzxV9da2of',
             'ext': 'mp4',
             'title': 'Madison Hart is a tiny blonde teen taking a big dick and thick creampie',
-            'description': 'md5:e7a8449f567d6be346a8299856ff0ccf'
+            'description': 'md5:e7a8449f567d6be346a8299856ff0ccf',
+            'age_limit': 18
         }
     }
 
@@ -58,7 +59,7 @@ class BangIE(InfoExtractor):
             'Elasticsearch auth'
         )
 
-        video_id_hex = binascii.hexlify(base64.b64decode(video_id)).decode('utf-8')
+        video_id_hex = binascii.hexlify(base64.urlsafe_b64decode(video_id)).decode('utf-8')
 
         metadata_url = compat_urlparse.urljoin(elasticsearch_url, "/videos/video/%s" % video_id_hex)
         metadata = self._download_json(metadata_url, video_id, headers={'Authorization': 'Basic ' + elasticsearch_auth})
