@@ -84,6 +84,8 @@ class XHamsterIE(InfoExtractor):
     }]
 
     def _real_extract(self, url):
+        url = re.sub(r'^(https?://.+?\.)?m\.', r'\1', url)
+
         mobj = re.match(self._VALID_URL, url)
         video_id = mobj.group('id') or mobj.group('id_2')
         display_id = mobj.group('display_id') or mobj.group('display_id_2')
