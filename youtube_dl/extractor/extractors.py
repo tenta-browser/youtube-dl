@@ -1189,6 +1189,7 @@ from .videomore import (
 )
 from .videopremium import VideoPremiumIE
 from .videopress import VideoPressIE
+from .videosz import VideosZIE
 from .vidio import VidioIE
 from .vidme import (
     VidmeIE,
