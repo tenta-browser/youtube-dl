@@ -76,6 +76,26 @@ class XHamsterIE(InfoExtractor):
             'skip_download': True,
         },
     }, {
+        # mobile site
+        'url': 'https://m.xhamster.com/videos/cute-teen-jacqueline-solo-masturbation-8559111',
+        'info_dict': {
+            'id': '8559111',
+            'display_id': 'cute-teen-jacqueline-solo-masturbation',
+            'ext': 'mp4',
+            'title': 'Cute Teen Jacqueline Solo Masturbation',
+            'timestamp': 1510899603,
+            'description': str,
+            'upload_date': '20171117',
+            'uploader': '10tz4d0114r5',
+            'duration': 395,
+            'age_limit': 18,
+            'categories': ['Teen Dreams Channel', 'Amateur', 'Fingering', 'HD Videos', 'Masturbation', 'Small Tits',
+                           'Teens', 'Cute Teen', 'Solo', 'Solo Masturbation']
+        },
+        'params': {
+            'skip_download': True,
+        },
+    }, {
         'url': 'https://xhamster.com/movies/2272726/amber_slayed_by_the_knight.html',
         'only_matching': True,
     }, {
@@ -95,7 +115,8 @@ class XHamsterIE(InfoExtractor):
         video_id = mobj.group('id') or mobj.group('id_2')
         display_id = mobj.group('display_id') or mobj.group('display_id_2')
 
-        webpage = self._download_webpage(url, video_id)
+        desktop_url = re.sub(r'^(https?://(?:.+?\.)?)m\.', r'\1', url)
+        webpage = self._download_webpage(desktop_url, video_id)
 
         error = self._html_search_regex(
             r'<div[^>]+id=["\']videoClosed["\'][^>]*>(.+?)</div>',
@@ -231,8 +252,8 @@ class XHamsterIE(InfoExtractor):
             webpage, 'uploader', default='anonymous')
 
         thumbnail = self._search_regex(
-            [r'''thumb\s*:\s*(?P<q>["'])(?P<thumbnail>.+?)(?P=q)''',
-             r'''<video[^>]+poster=(?P<q>["'])(?P<thumbnail>.+?)(?P=q)[^>]*>'''],
+            [r'''["']thumbUrl["']\s*:\s*(?P<q>["'])(?P<thumbnail>.+?)(?P=q)''',
+             r'''<video[^>]+"poster"=(?P<q>["'])(?P<thumbnail>.+?)(?P=q)[^>]*>'''],
             webpage, 'thumbnail', fatal=False, group='thumbnail')
 
         duration = parse_duration(self._search_regex(
@@ -276,15 +297,16 @@ class XHamsterIE(InfoExtractor):
 
 
 class XHamsterEmbedIE(InfoExtractor):
-    _VALID_URL = r'https?://(?:www\.)?xhamster\.com/xembed\.php\?video=(?P<id>\d+)'
+    _VALID_URL = r'https?://(?:.+?\.)?xhamster\.com/xembed\.php\?video=(?P<id>\d+)'
     _TEST = {
         'url': 'http://xhamster.com/xembed.php?video=3328539',
         'info_dict': {
             'id': '3328539',
             'ext': 'mp4',
             'title': 'Pen Masturbation',
+            'timestamp': 1406581861,
             'upload_date': '20140728',
-            'uploader_id': 'anonymous',
+            'uploader': 'ManyakisArt',
             'duration': 5,
             'age_limit': 18,
         }
