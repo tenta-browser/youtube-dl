@@ -101,7 +101,7 @@ class TwitchBaseIE(InfoExtractor):
             fail(clean_html(login_page))
 
         redirect_page, handle = login_step(
-            login_page, handle, 'Logging in as %s' % username, {
+            login_page, handle, 'Logging in', {
                 'username': username,
                 'password': password,
             })
@@ -609,7 +609,7 @@ class TwitchClipsIE(InfoExtractor):
                 r'(?s)clipInfo\s*=\s*({.+?});', webpage, 'clip info'),
             video_id, transform_source=js_to_json)
 
-        title = clip.get('channel_title') or self._og_search_title(webpage)
+        title = clip.get('title') or clip.get('channel_title') or self._og_search_title(webpage)
 
         formats = [{
             'url': option['source'],

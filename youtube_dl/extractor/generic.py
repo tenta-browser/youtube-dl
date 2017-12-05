@@ -101,6 +101,8 @@ from .mediaset import MediasetIE
 from .joj import JojIE
 from .megaphone import MegaphoneIE
 from .vzaar import VzaarIE
+from .channel9 import Channel9IE
+from .vshare import VShareIE
 
 
 class GenericIE(InfoExtractor):
@@ -1090,23 +1092,24 @@ class GenericIE(InfoExtractor):
                 'ext': 'mp4',
                 'upload_date': '20150212',
                 'uploader': 'The National Archives UK',
-                'description': 'md5:a236581cd2449dd2df4f93412f3f01c6',
+                'description': 'md5:8078af856dca76edc42910b61273dbbf',
                 'uploader_id': 'NationalArchives08',
                 'title': 'Webinar: Using Discovery, The National Archives’ online catalogue',
             },
         },
         # jwplayer rtmp
         {
-            'url': 'http://www.suffolk.edu/sjc/',
+            'url': 'http://www.suffolk.edu/sjc/live.php',
             'info_dict': {
-                'id': 'sjclive',
+                'id': 'live',
                 'ext': 'flv',
                 'title': 'Massachusetts Supreme Judicial Court Oral Arguments',
                 'uploader': 'www.suffolk.edu',
             },
             'params': {
                 'skip_download': True,
-            }
+            },
+            'skip': 'Only has video a few mornings per month, see http://www.suffolk.edu/sjc/',
         },
         # Complex jwplayer
         {
@@ -1115,6 +1118,7 @@ class GenericIE(InfoExtractor):
                 'id': 'videos',
                 'ext': 'mp4',
                 'title': 'king machine trailer 1',
+                'description': 'Browse King Machine videos & audio for sweet media. Your eyes will thank you.',
                 'thumbnail': r're:^https?://.*\.jpg$',
             },
         },
@@ -1133,7 +1137,20 @@ class GenericIE(InfoExtractor):
             }
         },
         {
-            # Video.js embed
+            # JWPlatform iframe
+            'url': 'https://www.mediaite.com/tv/dem-senator-claims-gary-cohn-faked-a-bad-connection-during-trump-call-to-get-him-off-the-phone/',
+            'md5': 'ca00a040364b5b439230e7ebfd02c4e9',
+            'info_dict': {
+                'id': 'O0c5JcKT',
+                'ext': 'mp4',
+                'upload_date': '20171122',
+                'timestamp': 1511366290,
+                'title': 'Dem Senator Claims Gary Cohn Faked a Bad Connection During Trump Call to Get Him Off the Phone',
+            },
+            'add_ie': [JWPlatformIE.ie_key()],
+        },
+        {
+            # Video.js embed, multiple formats
             'url': 'http://ortcam.com/solidworks-урок-6-настройка-чертежа_33f9b7351.html',
             'info_dict': {
                 'id': 'yygqldloqIk',
@@ -1148,13 +1165,26 @@ class GenericIE(InfoExtractor):
                 'skip_download': True,
             },
         },
+        {
+            # Video.js embed, single format
+            'url': 'https://www.vooplayer.com/v3/watch/watch.php?v=NzgwNTg=',
+            'info_dict': {
+                'id': 'watch',
+                'ext': 'mp4',
+                'title': 'Step 1 -  Good Foundation',
+                'description': 'md5:d1e7ff33a29fc3eb1673d6c270d344f4',
+            },
+            'params': {
+                'skip_download': True,
+            },
+        },
         # rtl.nl embed
         {
             'url': 'http://www.rtlnieuws.nl/nieuws/buitenland/aanslagen-kopenhagen',
             'playlist_mincount': 5,
             'info_dict': {
                 'id': 'aanslagen-kopenhagen',
-                'title': 'Aanslagen Kopenhagen | RTL Nieuws',
+                'title': 'Aanslagen Kopenhagen',
             }
         },
         # Zapiks embed
@@ -1286,6 +1316,7 @@ class GenericIE(InfoExtractor):
             'params': {
                 'skip_download': True,
             },
+            'skip': 'This video is unavailable.',
         },
         # Pladform embed
         {
@@ -1299,6 +1330,7 @@ class GenericIE(InfoExtractor):
                 'duration': 694,
                 'age_limit': 0,
             },
+            'skip': 'HTTP Error 404: Not Found',
         },
         # Playwire embed
         {
@@ -1319,6 +1351,14 @@ class GenericIE(InfoExtractor):
                 'id': '518726732',
                 'ext': 'mp4',
                 'title': 'Facebook Creates "On This Day" | Crunch Report',
+                'description': 'Amazon updates Fire TV line, Tesla\'s Model X spotted in the wild',
+                'timestamp': 1427237531,
+                'uploader': 'Crunch Report',
+                'upload_date': '20150324',
+            },
+            'params': {
+                # m3u8 download
+                'skip_download': True,
             },
         },
         # SVT embed
@@ -1370,16 +1410,20 @@ class GenericIE(InfoExtractor):
                 'upload_date': '20140107',
                 'timestamp': 1389118457,
             },
+            'skip': 'Invalid Page URL',
         },
         # NBC News embed
         {
             'url': 'http://www.vulture.com/2016/06/letterman-couldnt-care-less-about-late-night.html',
             'md5': '1aa589c675898ae6d37a17913cf68d66',
             'info_dict': {
-                'id': '701714499682',
+                'id': 'x_dtl_oa_LettermanliftPR_160608',
                 'ext': 'mp4',
-                'title': 'PREVIEW: On Assignment: David Letterman',
+                'title': 'David Letterman: A Preview',
                 'description': 'A preview of Tom Brokaw\'s interview with David Letterman as part of the On Assignment series powered by Dateline. Airs Sunday June 12 at 7/6c.',
+                'upload_date': '20160609',
+                'timestamp': 1465431544,
+                'uploader': 'NBCU-NEWS',
             },
         },
         # UDN embed
@@ -1396,6 +1440,7 @@ class GenericIE(InfoExtractor):
                 # m3u8 download
                 'skip_download': True,
             },
+            'expected_warnings': ['Failed to parse JSON Expecting value'],
         },
         # Ooyala embed
         {
@@ -1403,7 +1448,7 @@ class GenericIE(InfoExtractor):
             'info_dict': {
                 'id': '50YnY4czr4ms1vJ7yz3xzq0excz_pUMs',
                 'ext': 'mp4',
-                'description': 'VIDEO: INDEX/MATCH versus VLOOKUP.',
+                'description': 'Index/Match versus VLOOKUP.',
                 'title': 'This is what separates the Excel masters from the wannabes',
                 'duration': 191.933,
             },
@@ -1441,7 +1486,8 @@ class GenericIE(InfoExtractor):
                 'upload_date': '20150622',
                 'uploader': 'Public Sénat',
                 'uploader_id': 'xa9gza',
-            }
+            },
+            'skip': 'File not found.',
         },
         # OnionStudios embed
         {
@@ -1598,22 +1644,6 @@ class GenericIE(InfoExtractor):
                 'uploader': 'TheAtlantic',
             },
             'add_ie': ['BrightcoveLegacy'],
-        },
-        # Nexx embed
-        {
-            'url': 'https://www.funk.net/serien/5940e15073f6120001657956/items/593efbb173f6120001657503',
-            'info_dict': {
-                'id': '247746',
-                'ext': 'mp4',
-                'title': "Yesterday's Jam (OV)",
-                'description': 'md5:09bc0984723fed34e2581624a84e05f0',
-                'timestamp': 1492594816,
-                'upload_date': '20170419',
-            },
-            'params': {
-                'format': 'bestvideo',
-                'skip_download': True,
-            },
         },
         # Facebook <iframe> embed
         {
@@ -1905,6 +1935,16 @@ class GenericIE(InfoExtractor):
                 'title': 'Rescue Kit 14 Free Edition - Getting started',
             },
             'playlist_count': 4,
+        },
+        {
+            # vshare embed
+            'url': 'https://youtube-dl-demo.neocities.org/vshare.html',
+            'md5': '17b39f55b5497ae8b59f5fbce8e35886',
+            'info_dict': {
+                'id': '0f64ce6',
+                'title': 'vl14062007715967',
+                'ext': 'mp4',
+            }
         }
         # {
         #     # TODO: find another test
@@ -2193,7 +2233,7 @@ class GenericIE(InfoExtractor):
         # And then there are the jokers who advertise that they use RTA,
         # but actually don't.
         AGE_LIMIT_MARKERS = [
-            r'Proudly Labeled <a href="http://www.rtalabel.org/" title="Restricted to Adults">RTA</a>',
+            r'Proudly Labeled <a href="http://www\.rtalabel\.org/" title="Restricted to Adults">RTA</a>',
         ]
         if any(re.search(marker, webpage) for marker in AGE_LIMIT_MARKERS):
             age_limit = 18
@@ -2255,7 +2295,7 @@ class GenericIE(InfoExtractor):
 
         # Look for embedded rtl.nl player
         matches = re.findall(
-            r'<iframe[^>]+?src="((?:https?:)?//(?:www\.)?rtl\.nl/system/videoplayer/[^"]+(?:video_)?embed[^"]+)"',
+            r'<iframe[^>]+?src="((?:https?:)?//(?:(?:www|static)\.)?rtl\.nl/(?:system/videoplayer/[^"]+(?:video_)?)?embed[^"]+)"',
             webpage)
         if matches:
             return self.playlist_from_matches(matches, video_id, video_title, ie='RtlNl')
@@ -2654,7 +2694,7 @@ class GenericIE(InfoExtractor):
 
         # Look for UDN embeds
         mobj = re.search(
-            r'<iframe[^>]+src="(?P<url>%s)"' % UDNEmbedIE._PROTOCOL_RELATIVE_VALID_URL, webpage)
+            r'<iframe[^>]+src="(?:https?:)?(?P<url>%s)"' % UDNEmbedIE._PROTOCOL_RELATIVE_VALID_URL, webpage)
         if mobj is not None:
             return self.url_result(
                 compat_urlparse.urljoin(url, mobj.group('url')), 'UDNEmbed')
@@ -2858,6 +2898,16 @@ class GenericIE(InfoExtractor):
             return self.playlist_from_matches(
                 vzaar_urls, video_id, video_title, ie=VzaarIE.ie_key())
 
+        channel9_urls = Channel9IE._extract_urls(webpage)
+        if channel9_urls:
+            return self.playlist_from_matches(
+                channel9_urls, video_id, video_title, ie=Channel9IE.ie_key())
+
+        vshare_urls = VShareIE._extract_urls(webpage)
+        if vshare_urls:
+            return self.playlist_from_matches(
+                vshare_urls, video_id, video_title, ie=VShareIE.ie_key())
+
         def merge_dicts(dict1, dict2):
             merged = {}
             for k, v in dict1.items():
@@ -2900,12 +2950,14 @@ class GenericIE(InfoExtractor):
 
         # Video.js embed
         mobj = re.search(
-            r'(?s)\bvideojs\s*\(.+?\bplayer\.src\s*\(\s*(\[.+?\])\s*\)\s*;',
+            r'(?s)\bvideojs\s*\(.+?\.src\s*\(\s*((?:\[.+?\]|{.+?}))\s*\)\s*;',
             webpage)
         if mobj is not None:
             sources = self._parse_json(
                 mobj.group(1), video_id, transform_source=js_to_json,
                 fatal=False) or []
+            if not isinstance(sources, list):
+                sources = [sources]
             formats = []
             for source in sources:
                 src = source.get('src')
