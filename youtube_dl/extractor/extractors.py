@@ -927,8 +927,12 @@ from .senateisvp import SenateISVPIE
 from .sendtonews import SendtoNewsIE
 from .servingsys import ServingSysIE
 from .servus import ServusIE
+from .sevenplus import SevenPlusIE
 from .sexu import SexuIE
-from .shahid import ShahidIE
+from .shahid import (
+    ShahidIE,
+    ShahidShowIE,
+)
 from .shared import (
     SharedIE,
     VivoIE,
