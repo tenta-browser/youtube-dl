@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 import base64
 import binascii
+import json
 
 from .common import InfoExtractor
 from ..compat import compat_urlparse
@@ -25,20 +26,40 @@ class BangIE(InfoExtractor):
             'age_limit': 18
         }
     }
+    _LOGIN_URL = 'https://www.bang.com/login_check'
+
+    def _login(self, video_id):
+        username, password = self._get_login_info()
+        if not username:
+                raise ExtractorError('LOGIN_REQUIRED', expected=True)
+
+        login_data = json.dumps({
+            "_username": username,
+            "_password": password,
+            "_remember_me": False}
+        ).encode('utf-8')
+
+        res = self._download_json(self._LOGIN_URL, video_id, 'Logging in', data=login_data)
+
+        if not res.get('success'):
+            raise ExtractorError('Invalid credentials', expected=True)
 
     def _real_extract(self, url):
         video_id = self._match_id(url)
         webpage = self._download_webpage(url, video_id)
 
-        api_key = self._search_regex(
-            r'apiKey\s*:\s*["\']([^"\']+)["\']',
-            webpage,
-            'api_key',
-            default=None
-        )
-
+        def get_api_key():
+            return self._search_regex(
+                r'apiKey\s*:\s*["\']([^"\']+)["\']',
+                webpage,
+                'api_key',
+                default=None
+            )
+        api_key = get_api_key()
         if not api_key:
-            raise ExtractorError('LOGIN_REQUIRED', expected=True)
+            self._login(video_id)
+            webpage = self._download_webpage(url, video_id)
+            api_key = get_api_key()
 
         mainjs_url = self._search_regex(
             r'<script[^>]+?src=["\'](?P<mainjs_url>/assets/js/main.[a-z0-9]+.js)',
