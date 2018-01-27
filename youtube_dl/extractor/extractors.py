@@ -934,6 +934,10 @@ from .servingsys import ServingSysIE
 from .servus import ServusIE
 from .sevenplus import SevenPlusIE
 from .sexu import SexuIE
+from .seznamzpravy import (
+    SeznamZpravyIE,
+    SeznamZpravyArticleIE,
+)
 from .shahid import (
     ShahidIE,
     ShahidShowIE,
@@ -1047,7 +1051,6 @@ from .theplatform import (
     ThePlatformFeedIE,
 )
 from .thescene import TheSceneIE
-from .thesixtyone import TheSixtyOneIE
 from .thestar import TheStarIE
 from .thesun import TheSunIE
 from .theweatherchannel import TheWeatherChannelIE
