@@ -1306,7 +1306,7 @@ from .webofstories import (
     WebOfStoriesPlaylistIE,
 )
 from .weibo import (
-    WeiboIE, 
+    WeiboIE,
     WeiboMobileIE
 )
 from .weiqitv import WeiqiTVIE
@@ -1389,6 +1389,7 @@ from .youtube import (
     YoutubeUserIE,
     YoutubeWatchLaterIE,
 )
+from .youtubeplaceholder import YoutubePlaceholderIE
 from .zapiks import ZapiksIE
 from .zaq1 import Zaq1IE
 from .zdf import ZDFIE, ZDFChannelIE
