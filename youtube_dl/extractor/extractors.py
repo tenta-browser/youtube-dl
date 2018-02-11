@@ -374,8 +374,10 @@ from .franceculture import FranceCultureIE
 from .franceinter import FranceInterIE
 from .francetv import (
     FranceTVIE,
+    FranceTVSiteIE,
     FranceTVEmbedIE,
     FranceTVInfoIE,
+    FranceTVJeunesseIE,
     GenerationWhatIE,
     CultureboxIE,
 )
@@ -648,6 +650,7 @@ from .nbc import (
     NBCIE,
     NBCNewsIE,
     NBCOlympicsIE,
+    NBCOlympicsStreamIE,
     NBCSportsIE,
     NBCSportsVPlayerIE,
 )
