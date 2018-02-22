@@ -163,6 +163,7 @@ from .cbc import (
     CBCPlayerIE,
     CBCWatchVideoIE,
     CBCWatchIE,
+    CBCOlympicsIE,
 )
 from .cbs import CBSIE
 from .cbslocal import CBSLocalIE
