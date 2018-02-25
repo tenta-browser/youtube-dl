@@ -567,7 +567,11 @@ from .lynda import (
 )
 from .m6 import M6IE
 from .macgamestore import MacGameStoreIE
-from .mailru import MailRuIE
+from .mailru import (
+    MailRuIE,
+    MailRuMusicIE,
+    MailRuMusicSearchIE,
+)
 from .makerschannel import MakersChannelIE
 from .makertv import MakerTVIE
 from .mangomolo import (
@@ -1046,7 +1050,11 @@ from .telebruxelles import TeleBruxellesIE
 from .telecinco import TelecincoIE
 from .telegraaf import TelegraafIE
 from .telemb import TeleMBIE
-from .telequebec import TeleQuebecIE
+from .telequebec import (
+    TeleQuebecIE,
+    TeleQuebecEmissionIE,
+    TeleQuebecLiveIE,
+)
 from .teletask import TeleTaskIE
 from .telewebion import TelewebionIE
 from .testurl import TestURLIE
@@ -1219,6 +1227,7 @@ from .videopremium import VideoPremiumIE
 from .videopress import VideoPressIE
 from .videosz import VideosZIE
 from .vidio import VidioIE
+from .vidlii import VidLiiIE
 from .vidme import (
     VidmeIE,
     VidmeUserIE,
