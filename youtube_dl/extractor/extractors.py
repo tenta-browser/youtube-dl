@@ -327,7 +327,6 @@ from .espn import (
     FiveThirtyEightIE,
 )
 from .esri import EsriVideoIE
-from .etonline import ETOnlineIE
 from .europa import EuropaIE
 from .everyonesmixtape import EveryonesMixtapeIE
 from .expotv import ExpoTVIE
