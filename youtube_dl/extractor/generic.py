@@ -23,6 +23,7 @@ from ..utils import (
     is_html,
     js_to_json,
     KNOWN_EXTENSIONS,
+    merge_dicts,
     mimetype2ext,
     orderedSet,
     sanitized_Request,
@@ -189,6 +190,16 @@ class GenericIE(InfoExtractor):
                 'upload_date': '20150228',
                 'title': 'pdv_maddow_netcast_m4v-02-27-2015-201624',
             }
+        },
+        # RSS feed with enclosures and unsupported link URLs
+        {
+            'url': 'http://www.hellointernet.fm/podcast?format=rss',
+            'info_dict': {
+                'id': 'http://www.hellointernet.fm/podcast?format=rss',
+                'description': 'CGP Grey and Brady Haran talk about YouTube, life, work, whatever.',
+                'title': 'Hello Internet',
+            },
+            'playlist_mincount': 100,
         },
         # SMIL from http://videolectures.net/promogram_igor_mekjavic_eng
         {
@@ -1272,6 +1283,23 @@ class GenericIE(InfoExtractor):
             'add_ie': ['Kaltura'],
         },
         {
+            # Kaltura iframe embed, more sophisticated
+            'url': 'http://www.cns.nyu.edu/~eero/math-tools/Videos/lecture-05sep2017.html',
+            'info_dict': {
+                'id': '1_9gzouybz',
+                'ext': 'mp4',
+                'title': 'lecture-05sep2017',
+                'description': 'md5:40f347d91fd4ba047e511c5321064b49',
+                'upload_date': '20170913',
+                'uploader_id': 'eps2',
+                'timestamp': 1505340777,
+            },
+            'params': {
+                'skip_download': True,
+            },
+            'add_ie': ['Kaltura'],
+        },
+        {
             # meta twitter:player
             'url': 'http://thechive.com/2017/12/08/all-i-want-for-christmas-is-more-twerk/',
             'info_dict': {
@@ -2025,13 +2053,15 @@ class GenericIE(InfoExtractor):
 
         entries = []
         for it in doc.findall('./channel/item'):
-            next_url = xpath_text(it, 'link', fatal=False)
+            next_url = None
+            enclosure_nodes = it.findall('./enclosure')
+            for e in enclosure_nodes:
+                next_url = e.attrib.get('url')
+                if next_url:
+                    break
+
             if not next_url:
-                enclosure_nodes = it.findall('./enclosure')
-                for e in enclosure_nodes:
-                    next_url = e.attrib.get('url')
-                    if next_url:
-                        break
+                next_url = xpath_text(it, 'link', fatal=False)
 
             if not next_url:
                 continue
@@ -3001,21 +3031,6 @@ class GenericIE(InfoExtractor):
         if sharevideos_urls:
             return self.playlist_from_matches(
                 sharevideos_urls, video_id, video_title)
-
-        def merge_dicts(dict1, dict2):
-            merged = {}
-            for k, v in dict1.items():
-                if v is not None:
-                    merged[k] = v
-            for k, v in dict2.items():
-                if v is None:
-                    continue
-                if (k not in merged or
-                        (isinstance(v, compat_str) and v and
-                            isinstance(merged[k], compat_str) and
-                            not merged[k])):
-                    merged[k] = v
-            return merged
 
         # Look for HTML5 media
         entries = self._parse_html5_media_entries(url, webpage, video_id, m3u8_id='hls')
