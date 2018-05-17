@@ -284,6 +284,7 @@ from .drtv import (
     DRTVIE,
     DRTVLiveIE,
 )
+from .dtube import DTubeIE
 from .dvtv import DVTVIE
 from .dumpert import DumpertIE
 from .defense import DefenseGouvFrIE
@@ -582,7 +583,6 @@ from .mailru import (
     MailRuMusicIE,
     MailRuMusicSearchIE,
 )
-from .makerschannel import MakersChannelIE
 from .makertv import MakerTVIE
 from .mangomolo import (
     MangomoloVideoIE,
@@ -625,7 +625,6 @@ from .mnet import MnetIE
 from .moevideo import MoeVideoIE
 from .mofosex import MofosexIE
 from .mojvideo import MojvideoIE
-from .moniker import MonikerIE
 from .morningstar import MorningstarIE
 from .motherless import (
     MotherlessIE,
@@ -646,6 +645,7 @@ from .mtv import (
 from .muenchentv import MuenchenTVIE
 from .musicplayon import MusicPlayOnIE
 from .mwave import MwaveIE, MwaveMeetGreetIE
+from .mychannels import MyChannelsIE
 from .myspace import MySpaceIE, MySpaceAlbumIE
 from .myspass import MySpassIE
 from .myvi import (
@@ -1016,7 +1016,10 @@ from .spankbang import SpankBangIE
 from .spankwire import SpankwireIE
 from .spiegel import SpiegelIE, SpiegelArticleIE
 from .spiegeltv import SpiegeltvIE
-from .spike import SpikeIE
+from .spike import (
+    BellatorIE,
+    ParamountNetworkIE,
+)
 from .stitcher import StitcherIE
 from .sport5 import Sport5IE
 from .sportbox import SportBoxEmbedIE
