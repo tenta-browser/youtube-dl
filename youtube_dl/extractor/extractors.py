@@ -470,10 +470,7 @@ from .imgur import (
 )
 from .ina import InaIE
 from .inc import IncIE
-from .indavideo import (
-    IndavideoIE,
-    IndavideoEmbedIE,
-)
+from .indavideo import IndavideoEmbedIE
 from .infoq import InfoQIE
 from .instagram import InstagramIE, InstagramUserIE
 from .internazionale import InternazionaleIE
@@ -667,6 +664,7 @@ from .nbc import (
     NBCOlympicsIE,
     NBCOlympicsStreamIE,
     NBCSportsIE,
+    NBCSportsStreamIE,
     NBCSportsVPlayerIE,
 )
 from .ndr import (
@@ -811,6 +809,7 @@ from .parliamentliveuk import ParliamentLiveUKIE
 from .patreon import PatreonIE
 from .pbs import PBSIE
 from .pearvideo import PearVideoIE
+from .peertube import PeerTubeIE
 from .people import PeopleIE
 from .performgroup import PerformGroupIE
 from .periscope import (
