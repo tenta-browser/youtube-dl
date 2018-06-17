@@ -266,6 +266,7 @@
  - **Europa**
  - **EveryonesMixtape**
  - **ExpoTV**
+ - **Expressen**
  - **ExtremeTube**
  - **EyedoTV**
  - **facebook**
@@ -455,6 +456,8 @@
  - **mangomolo:live**
  - **mangomolo:video**
  - **ManyVids**
+ - **Markiza**
+ - **MarkizaPage**
  - **massengeschmack.tv**
  - **MatchTV**
  - **MDR**: MDR.DE and KiKA
@@ -893,6 +896,7 @@
  - **tvigle**: Интернет-телевидение Tvigle.ru
  - **tvland.com**
  - **TVN24**
+ - **TVNet**
  - **TVNoe**
  - **TVNow**
  - **TVNowList**
