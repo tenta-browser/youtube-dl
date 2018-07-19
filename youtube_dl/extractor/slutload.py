@@ -52,14 +52,18 @@ class SlutloadIE(InfoExtractor):
                     'age_limit': 18
                 }
 
-        webpage = self._download_webpage(
-            'http://www.slutload.com/video/_/%s/' % video_id, video_id)
-        title = self._html_search_regex(
-            r'<h1><strong>([^<]+)</strong>', webpage, 'title').strip()
-        info = self._parse_html5_media_entries(url, webpage, video_id)[0]
-        info.update({
-            'id': video_id,
-            'title': title,
-            'age_limit': 18,
-        })
-        return info
+        #
+        # Commented out, because we do not support _parse_html5_media_entries yet.
+        #
+        # webpage = self._download_webpage(
+        #     'http://www.slutload.com/video/_/%s/' % video_id, video_id)
+        # title = self._html_search_regex(
+        #     r'<h1><strong>([^<]+)</strong>', webpage, 'title').strip()
+        # info = self._parse_html5_media_entries(url, webpage, video_id)[0]
+        # info.update({
+        #     'id': video_id,
+        #     'title': title,
+        #     'age_limit': 18,
+        # })
+        # return info
+        return {}
