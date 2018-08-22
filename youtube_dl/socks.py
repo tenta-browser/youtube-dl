@@ -26,7 +26,7 @@ SOCKS4_REPLY_VERSION = 0x00
 # if the client cannot resolve the destination host's domain name to find its
 # IP address, it should set the first three bytes of DSTIP to NULL and the last
 # byte to a non-zero value.
-SOCKS4_DEFAULT_DSTIP = compat_struct_pack('!BBBB', 0, 0, 0, 0xFF)
+SOCKS4_DEFAULT_DSTIP = None #compat_struct_pack('!BBBB', 0, 0, 0, 0xFF)
 
 SOCKS5_VERSION = 5
 SOCKS5_USER_AUTH_VERSION = 0x01
@@ -104,8 +104,9 @@ class ProxyType(object):
     SOCKS5 = 2
 
 
-Proxy = collections.namedtuple('Proxy', (
-    'type', 'host', 'port', 'username', 'password', 'remote_dns'))
+# Proxy = collections.namedtuple('Proxy', (
+#     'type', 'host', 'port', 'username', 'password', 'remote_dns'))
+Proxy = None
 
 
 class sockssocket(socket.socket):

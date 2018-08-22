@@ -6,24 +6,24 @@ import io
 
 from .fragment import FragmentFD
 from ..compat import (
-    compat_Struct,
+    #compat_Struct,
     compat_urllib_error,
 )
 
 
-u8 = compat_Struct('>B')
-u88 = compat_Struct('>Bx')
-u16 = compat_Struct('>H')
-u1616 = compat_Struct('>Hxx')
-u32 = compat_Struct('>I')
-u64 = compat_Struct('>Q')
+# u8 = compat_Struct('>B')
+# u88 = compat_Struct('>Bx')
+# u16 = compat_Struct('>H')
+# u1616 = compat_Struct('>Hxx')
+# u32 = compat_Struct('>I')
+# u64 = compat_Struct('>Q')
 
-s88 = compat_Struct('>bx')
-s16 = compat_Struct('>h')
-s1616 = compat_Struct('>hxx')
-s32 = compat_Struct('>i')
+# s88 = compat_Struct('>bx')
+# s16 = compat_Struct('>h')
+# s1616 = compat_Struct('>hxx')
+# s32 = compat_Struct('>i')
 
-unity_matrix = (s32.pack(0x10000) + s32.pack(0) * 3) * 2 + s32.pack(0x40000000)
+# unity_matrix = (s32.pack(0x10000) + s32.pack(0) * 3) * 2 + s32.pack(0x40000000)
 
 TRACK_ENABLED = 0x1
 TRACK_IN_MOVIE = 0x2

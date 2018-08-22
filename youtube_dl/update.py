@@ -7,7 +7,7 @@ import hashlib
 import os
 import subprocess
 import sys
-from zipimport import zipimporter
+#from zipimport import zipimporter
 
 from .utils import encode_compat_str
 

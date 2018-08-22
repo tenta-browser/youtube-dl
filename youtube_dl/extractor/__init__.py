@@ -1,19 +1,19 @@
 from __future__ import unicode_literals
 
-try:
-    from .lazy_extractors import *
-    from .lazy_extractors import _ALL_CLASSES
-    _LAZY_LOADER = True
-except ImportError:
-    _LAZY_LOADER = False
-    from .extractors import *
+# try:
+#     from .lazy_extractors import *
+#     from .lazy_extractors import _ALL_CLASSES
+#     _LAZY_LOADER = True
+# except ImportError:
+_LAZY_LOADER = False
+#from .extractors import *
 
-    _ALL_CLASSES = [
-        klass
-        for name, klass in globals().items()
-        if name.endswith('IE') and name != 'GenericIE'
-    ]
-    _ALL_CLASSES.append(GenericIE)
+_ALL_CLASSES = [
+    klass
+    for name, klass in globals().items()
+    if name.endswith('IE') and name != 'GenericIE'
+]
+#_ALL_CLASSES.append(GenericIE)
 
 
 def gen_extractor_classes():
