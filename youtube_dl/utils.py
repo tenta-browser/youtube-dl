@@ -2375,9 +2375,10 @@ def is_outdated_version(version, limit, assume_new=True):
 
 def ytdl_is_updateable():
     """ Returns if youtube-dl can be updated with -U """
-    from zipimport import zipimporter
+    # from zipimport import zipimporter
 
-    return isinstance(globals().get('__loader__'), zipimporter) or hasattr(sys, 'frozen')
+    # return isinstance(globals().get('__loader__'), zipimporter) or hasattr(sys, 'frozen')
+    return False
 
 
 def args_to_str(args):
