@@ -704,10 +704,11 @@ class InfoExtractor(object):
             with open(filename, 'wb') as outf:
                 outf.write(webpage_bytes)
 
-        try:
-            content = webpage_bytes.decode(encoding, 'replace')
-        except LookupError:
-            content = webpage_bytes.decode('utf-8', 'replace')
+        # try:
+        #     content = webpage_bytes.decode(encoding, 'replace')
+        # except LookupError:
+        #     content = webpage_bytes.decode('utf-8', 'replace')
+        content = webpage_bytes
 
         self.__check_blocked(content)
 

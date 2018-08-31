@@ -2389,8 +2389,8 @@ def error_to_compat_str(err):
     err_str = str(err)
     # On python 2 error byte string must be decoded with proper
     # encoding rather than ascii
-    if sys.version_info[0] < 3:
-        err_str = err_str.decode(preferredencoding())
+    # if sys.version_info[0] < 3:
+    #     err_str = err_str.decode(preferredencoding())
     return err_str
 
 

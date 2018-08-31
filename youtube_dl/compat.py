@@ -1,5 +1,5 @@
 # coding: utf-8
-#from __future__ import unicode_literals
+from __future__ import unicode_literals
 
 import base64
 import binascii
@@ -2355,10 +2355,10 @@ try:
 except ImportError:
     import BaseHTTPServer as compat_http_server
 
-try:
-    compat_str = unicode  # Python 2
-except NameError:
-    compat_str = str
+# try:
+#     compat_str = unicode  # Python 2
+# except NameError:
+compat_str = str
 
 # try:
 #     from urllib.parse import unquote_to_bytes as compat_urllib_parse_unquote_to_bytes
