@@ -56,6 +56,7 @@
  - **archive.org**: archive.org videos
  - **ARD**
  - **ARD:mediathek**
+ - **ARDBetaMediathek**
  - **Arkena**
  - **arte.tv**
  - **arte.tv:+7**
@@ -108,6 +109,8 @@
  - **BiliBili**
  - **BioBioChileTV**
  - **BIQLE**
+ - **BitChute**
+ - **BitChuteChannel**
  - **BleacherReport**
  - **BleacherReportCMS**
  - **blinkx**
@@ -189,7 +192,7 @@
  - **Crackle**
  - **Criterion**
  - **CrooksAndLiars**
- - **Crunchyroll**
+ - **crunchyroll**
  - **crunchyroll:playlist**
  - **CSNNE**
  - **CSpan**: C-SPAN
@@ -405,6 +408,7 @@
  - **Ketnet**
  - **KhanAcademy**
  - **KickStarter**
+ - **KinoPoisk**
  - **KonserthusetPlay**
  - **kontrtube**: KontrTube.ru - Труба зовёт
  - **KrasView**: Красвью
@@ -577,6 +581,7 @@
  - **Normalboots**
  - **NosVideo**
  - **Nova**: TN.cz, Prásk.tv, Nova.cz, Novaplus.cz, FANDA.tv, Krásná.cz and Doma.cz
+ - **NovaEmbed**
  - **nowness**
  - **nowness:playlist**
  - **nowness:series**
@@ -696,6 +701,7 @@
  - **RaiPlayLive**
  - **RaiPlayPlaylist**
  - **RayWenderlich**
+ - **RayWenderlichCourse**
  - **RBMARadio**
  - **RDS**: RDS.ca
  - **RedBullTV**
@@ -912,6 +918,7 @@
  - **tvp:embed**: Telewizja Polska
  - **tvp:series**
  - **TVPlayer**
+ - **TVPlayHome**
  - **Tweakers**
  - **twitch:chapter**
  - **twitch:clips**
@@ -1093,6 +1100,7 @@
  - **YouNowLive**
  - **YouNowMoment**
  - **YouPorn**
+ - **YourPorn**
  - **YourUpload**
  - **youtube**: YouTube.com
  - **youtube:channel**: YouTube.com channels
