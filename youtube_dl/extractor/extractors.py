@@ -1044,7 +1044,7 @@ from .spike import (
 )
 from .stitcher import StitcherIE
 from .sport5 import Sport5IE
-from .sportbox import SportBoxEmbedIE
+from .sportbox import SportBoxIE
 from .sportdeutschland import SportDeutschlandIE
 from .springboardplatform import SpringboardPlatformIE
 from .sprout import SproutIE
@@ -1155,7 +1155,6 @@ from .tv2 import (
     TV2ArticleIE,
 )
 from .tv2hu import TV2HuIE
-from .tv3 import TV3IE
 from .tv4 import TV4IE
 from .tv5mondeplus import TV5MondePlusIE
 from .tva import TVAIE
