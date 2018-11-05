@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 import base64
-import datetime
+#import datetime
 import hashlib
 import json
 import netrc
@@ -2703,9 +2703,10 @@ class InfoExtractor(object):
 
     def _live_title(self, name):
         """ Generate the title for a live video """
-        now = datetime.datetime.now()
-        now_str = now.strftime('%Y-%m-%d %H:%M')
-        return name + ' ' + now_str
+        return name
+        # now = datetime.datetime.now()
+        # now_str = now.strftime('%Y-%m-%d %H:%M')
+        # return name + ' ' + now_str
 
     def _int(self, v, name, fatal=False, **kwargs):
         res = int_or_none(v, **kwargs)

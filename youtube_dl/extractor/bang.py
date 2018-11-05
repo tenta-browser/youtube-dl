@@ -27,6 +27,7 @@ class BangIE(InfoExtractor):
         }
     }
     _LOGIN_URL = 'https://www.bang.com/login_check'
+    _NETRC_MACHINE = 'bang'
 
     def _login(self, video_id):
         username, password = self._get_login_info()

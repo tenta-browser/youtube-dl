@@ -561,8 +561,9 @@ def sanitized_Request(url, *args, **kwargs):
 
 
 def expand_path(s):
-    """Expand shell variables and ~"""
-    return os.path.expandvars(compat_expanduser(s))
+    # """Expand shell variables and ~"""
+    # return os.path.expandvars(compat_expanduser(s))
+    return s
 
 
 def orderedSet(iterable):
@@ -1183,21 +1184,21 @@ def extract_timezone(date_str):
 
 def parse_iso8601(date_str, delimiter='T', timezone=None):
     """ Return a UNIX timestamp from the given date """
+    return 0
+    # if date_str is None:
+    #     return None
 
-    if date_str is None:
-        return None
+    # date_str = re.sub(r'\.[0-9]+', '', date_str)
 
-    date_str = re.sub(r'\.[0-9]+', '', date_str)
+    # if timezone is None:
+    #     timezone, date_str = extract_timezone(date_str)
 
-    if timezone is None:
-        timezone, date_str = extract_timezone(date_str)
-
-    try:
-        date_format = '%Y-%m-%d{0}%H:%M:%S'.format(delimiter)
-        dt = datetime.datetime.strptime(date_str, date_format) - timezone
-        return calendar.timegm(dt.timetuple())
-    except ValueError:
-        pass
+    # try:
+    #     date_format = '%Y-%m-%d{0}%H:%M:%S'.format(delimiter)
+    #     dt = datetime.datetime.strptime(date_str, date_format) - timezone
+    #     return calendar.timegm(dt.timetuple())
+    # except ValueError:
+    #     pass
 
 
 def date_formats(day_first=True):
@@ -1205,64 +1206,66 @@ def date_formats(day_first=True):
 
 
 def unified_strdate(date_str, day_first=True):
-    """Return a string with the date in the format YYYYMMDD"""
+    return "20000101"
+    # """Return a string with the date in the format YYYYMMDD"""
 
-    if date_str is None:
-        return None
-    upload_date = None
-    # Replace commas
-    date_str = date_str.replace(',', ' ')
-    # Remove AM/PM + timezone
-    date_str = re.sub(r'(?i)\s*(?:AM|PM)(?:\s+[A-Z]+)?', '', date_str)
-    _, date_str = extract_timezone(date_str)
+    # if date_str is None:
+    #     return None
+    # upload_date = None
+    # # Replace commas
+    # date_str = date_str.replace(',', ' ')
+    # # Remove AM/PM + timezone
+    # date_str = re.sub(r'(?i)\s*(?:AM|PM)(?:\s+[A-Z]+)?', '', date_str)
+    # _, date_str = extract_timezone(date_str)
 
-    for expression in date_formats(day_first):
-        try:
-            upload_date = datetime.datetime.strptime(date_str, expression).strftime('%Y%m%d')
-        except ValueError:
-            pass
-    if upload_date is None:
-        timetuple = email.utils.parsedate_tz(date_str)
-        if timetuple:
-            try:
-                upload_date = datetime.datetime(*timetuple[:6]).strftime('%Y%m%d')
-            except ValueError:
-                pass
-    if upload_date is not None:
-        return compat_str(upload_date)
+    # for expression in date_formats(day_first):
+    #     try:
+    #         upload_date = datetime.datetime.strptime(date_str, expression).strftime('%Y%m%d')
+    #     except ValueError:
+    #         pass
+    # if upload_date is None:
+    #     timetuple = email.utils.parsedate_tz(date_str)
+    #     if timetuple:
+    #         try:
+    #             upload_date = datetime.datetime(*timetuple[:6]).strftime('%Y%m%d')
+    #         except ValueError:
+    #             pass
+    # if upload_date is not None:
+    #     return compat_str(upload_date)
 
 
 def unified_timestamp(date_str, day_first=True):
-    if date_str is None:
-        return None
+    return 0
+    # if date_str is None:
+    #     return None
 
-    date_str = re.sub(r'[,|]', '', date_str)
+    # date_str = re.sub(r'[,|]', '', date_str)
 
-    pm_delta = 12 if re.search(r'(?i)PM', date_str) else 0
-    timezone, date_str = extract_timezone(date_str)
+    # pm_delta = 12 if re.search(r'(?i)PM', date_str) else 0
+    # timezone, date_str = extract_timezone(date_str)
 
-    # Remove AM/PM + timezone
-    date_str = re.sub(r'(?i)\s*(?:AM|PM)(?:\s+[A-Z]+)?', '', date_str)
+    # # Remove AM/PM + timezone
+    # date_str = re.sub(r'(?i)\s*(?:AM|PM)(?:\s+[A-Z]+)?', '', date_str)
 
-    # Remove unrecognized timezones from ISO 8601 alike timestamps
-    m = re.search(r'\d{1,2}:\d{1,2}(?:\.\d+)?(?P<tz>\s*[A-Z]+)$', date_str)
-    if m:
-        date_str = date_str[:-len(m.group('tz'))]
+    # # Remove unrecognized timezones from ISO 8601 alike timestamps
+    # m = re.search(r'\d{1,2}:\d{1,2}(?:\.\d+)?(?P<tz>\s*[A-Z]+)$', date_str)
+    # if m:
+    #     date_str = date_str[:-len(m.group('tz'))]
 
-    # Python only supports microseconds, so remove nanoseconds
-    m = re.search(r'^([0-9]{4,}-[0-9]{1,2}-[0-9]{1,2}T[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}\.[0-9]{6})[0-9]+$', date_str)
-    if m:
-        date_str = m.group(1)
+    # # Python only supports microseconds, so remove nanoseconds
+    # m = re.search(r'^([0-9]{4,}-[0-9]{1,2}-[0-9]{1,2}T[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}\.[0-9]{6})[0-9]+$', date_str)
+    # if m:
+    #     date_str = m.group(1)
 
-    for expression in date_formats(day_first):
-        try:
-            dt = datetime.datetime.strptime(date_str, expression) - timezone + datetime.timedelta(hours=pm_delta)
-            return calendar.timegm(dt.timetuple())
-        except ValueError:
-            pass
-    timetuple = email.utils.parsedate_tz(date_str)
-    if timetuple:
-        return calendar.timegm(timetuple) + pm_delta * 3600
+    # for expression in date_formats(day_first):
+    #     try:
+    #         dt = datetime.datetime.strptime(date_str, expression) - timezone + datetime.timedelta(hours=pm_delta)
+    #         return calendar.timegm(dt.timetuple())
+    #     except ValueError:
+    #         pass
+    # timetuple = email.utils.parsedate_tz(date_str)
+    # if timetuple:
+    #     return calendar.timegm(timetuple) + pm_delta * 3600
 
 
 def determine_ext(url, default_ext='unknown_video'):
@@ -1508,8 +1511,9 @@ if sys.platform == 'win32':
         ctypes.POINTER(OVERLAPPED)  # Overlapped
     ]
     UnlockFileEx.restype = ctypes.wintypes.BOOL
-    whole_low = 0xffffffff
-    whole_high = 0x7fffffff
+    # Constants too big to fit 32bit ints
+    # whole_low = 0xffffffff
+    # whole_high = 0x7fffffff
 
     def _lock_file(f, exclusive):
         overlapped = OVERLAPPED()
@@ -2412,9 +2416,10 @@ def is_outdated_version(version, limit, assume_new=True):
 
 def ytdl_is_updateable():
     """ Returns if youtube-dl can be updated with -U """
-    from zipimport import zipimporter
+    # from zipimport import zipimporter
 
-    return isinstance(globals().get('__loader__'), zipimporter) or hasattr(sys, 'frozen')
+    # return isinstance(globals().get('__loader__'), zipimporter) or hasattr(sys, 'frozen')
+    return False
 
 
 def args_to_str(args):
@@ -3592,11 +3597,13 @@ class GeoUtils(object):
                 return None
         else:
             block = code_or_block
-        addr, preflen = block.split('/')
-        addr_min = compat_struct_unpack('!L', socket.inet_aton(addr))[0]
-        addr_max = addr_min | (0xffffffff >> int(preflen))
-        return compat_str(socket.inet_ntoa(
-            compat_struct_pack('!L', random.randint(addr_min, addr_max))))
+        from __go__.net import RandomIPv4
+        return RandomIPv4(block)
+        # addr, preflen = block.split('/')
+        # addr_min = compat_struct_unpack('!L', socket.inet_aton(addr))[0]
+        # addr_max = addr_min | (0xffffffff >> int(preflen))
+        # return compat_str(socket.inet_ntoa(
+        #     compat_struct_pack('!L', random.randint(addr_min, addr_max))))
 
 
 class PerRequestProxyHandler(compat_urllib_request.ProxyHandler):
@@ -3948,12 +3955,18 @@ def write_xattr(path, key, value):
 
 
 def random_birthday(year_field, month_field, day_field):
-    start_date = datetime.date(1950, 1, 1)
-    end_date = datetime.date(1995, 12, 31)
-    offset = random.randint(0, (end_date - start_date).days)
-    random_date = start_date + datetime.timedelta(offset)
+    # https://xkcd.com/221/
     return {
-        year_field: str(random_date.year),
-        month_field: str(random_date.month),
-        day_field: str(random_date.day),
+        year_field: '1987',
+        month_field: '12',
+        day_field: '12',
     }
+    # start_date = datetime.date(1950, 1, 1)
+    # end_date = datetime.date(1995, 12, 31)
+    # offset = random.randint(0, (end_date - start_date).days)
+    # random_date = start_date + datetime.timedelta(offset)
+    # return {
+    #     year_field: str(random_date.year),
+    #     month_field: str(random_date.month),
+    #     day_field: str(random_date.day),
+    # }
