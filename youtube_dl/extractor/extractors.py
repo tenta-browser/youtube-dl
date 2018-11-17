@@ -1389,6 +1389,7 @@ from .wsj import (
     WSJIE,
     WSJArticleIE,
 )
+from .wwe import WWEIE
 from .xbef import XBefIE
 from .xboxclips import XboxClipsIE
 from .xfileshare import XFileShareIE
@@ -1482,3 +1483,4 @@ from .zattoo import (
 )
 from .zdf import ZDFIE, ZDFChannelIE
 from .zingmp3 import ZingMp3IE
+from .zype import ZypeIE
