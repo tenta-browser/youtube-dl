@@ -18,6 +18,7 @@ class YoutubePlaceholderIE(InfoExtractor):
                             (?:www\.)?hooktube\.com/|
                             (?:www\.)?yourepeat\.com/|
                             tube\.majestyc\.net/|
+                            (?:www\.)?invidio\.us/|
                             youtube\.googleapis\.com/)                        # the various hostnames, with wildcard subdomains
                          (?:.*?\#/)?                                          # handle anchor (#/) redirect urls
                          (?:                                                  # the various things that can precede the ID:
@@ -46,6 +47,11 @@ class YoutubePlaceholderIE(InfoExtractor):
                      )
                      #(?(1).+)?                                                # if we found the ID, everything can follow
                      $""" % {'playlist_id': _PLAYLIST_ID_RE}
+
+    _TEST = {
+        'url': 'https://www.youtube.com/watch?v=MuAGGZNfUkU',
+        'only_matching': True,
+    }
 
     def _real_extract(self, url):
         raise ExtractorError('YOUTUBE_PLACEHOLDER', expected=True)
