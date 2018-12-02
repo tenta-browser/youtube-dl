@@ -1126,6 +1126,10 @@ from .thisamericanlife import ThisAmericanLifeIE
 from .thisav import ThisAVIE
 from .thisoldhouse import ThisOldHouseIE
 from .threeqsdn import ThreeQSDNIE
+from .tiktok import (
+    TikTokIE,
+    TikTokUserIE,
+)
 from .tinypic import TinyPicIE
 from .tmz import (
     TMZIE,
@@ -1306,6 +1310,7 @@ from .vimeo import (
     VimeoReviewIE,
     VimeoUserIE,
     VimeoWatchLaterIE,
+    VHXEmbedIE,
 )
 from .vimple import VimpleIE
 from .vine import (
