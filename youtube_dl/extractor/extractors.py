@@ -1450,6 +1450,7 @@ from .younow import (
 from .youporn import YouPornIE
 from .yourporn import YourPornIE
 from .yourupload import YourUploadIE
+from .youtubeplaceholder import YoutubePlaceholderIE
 from .youtube import (
     YoutubeIE,
     YoutubeChannelIE,
@@ -1469,7 +1470,6 @@ from .youtube import (
     YoutubeUserIE,
     YoutubeWatchLaterIE,
 )
-from .youtubeplaceholder import YoutubePlaceholderIE
 from .zapiks import ZapiksIE
 from .zaq1 import Zaq1IE
 from .zattoo import (
