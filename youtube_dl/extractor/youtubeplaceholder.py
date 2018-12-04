@@ -50,7 +50,6 @@ class YoutubePlaceholderIE(InfoExtractor):
 
     _TEST = {
         'url': 'https://www.youtube.com/watch?v=MuAGGZNfUkU',
-        'only_matching': True,
     }
 
     def _real_extract(self, url):
