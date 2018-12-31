@@ -558,6 +558,7 @@ from .lecture2go import Lecture2GoIE
 from .lecturio import (
     LecturioIE,
     LecturioCourseIE,
+    LecturioDeCourseIE,
 )
 from .leeco import (
     LeIE,
