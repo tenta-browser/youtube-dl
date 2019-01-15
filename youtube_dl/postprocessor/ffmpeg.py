@@ -79,6 +79,20 @@ class FFmpegPostProcessor(PostProcessor):
         programs = ['avprobe', 'avconv', 'ffmpeg', 'ffprobe']
         prefer_ffmpeg = True
 
+        def get_ffmpeg_version(path):
+            ver = get_exe_version(path, args=['-version'])
+            if ver:
+                regexs = [
+                    r'(?:\d+:)?([0-9.]+)-[0-9]+ubuntu[0-9.]+$',  # Ubuntu, see [1]
+                    r'n([0-9.]+)$',  # Arch Linux
+                    # 1. http://www.ducea.com/2006/06/17/ubuntu-package-version-naming-explanation/
+                ]
+                for regex in regexs:
+                    mobj = re.match(regex, ver)
+                    if mobj:
+                        ver = mobj.group(1)
+            return ver
+
         self.basename = None
         self.probe_basename = None
 
@@ -110,11 +124,10 @@ class FFmpegPostProcessor(PostProcessor):
                 self._paths = dict(
                     (p, os.path.join(location, p)) for p in programs)
                 self._versions = dict(
-                    (p, get_exe_version(self._paths[p], args=['-version']))
-                    for p in programs)
+                    (p, get_ffmpeg_version(self._paths[p])) for p in programs)
         if self._versions is None:
             self._versions = dict(
-                (p, get_exe_version(p, args=['-version'])) for p in programs)
+                (p, get_ffmpeg_version(p)) for p in programs)
             self._paths = dict((p, p) for p in programs)
 
         if prefer_ffmpeg is False:
