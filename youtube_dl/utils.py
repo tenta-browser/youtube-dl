@@ -1872,7 +1872,7 @@ def urljoin(base, path):
         path = path.decode('utf-8')
     if not isinstance(path, compat_str) or not path:
         return None
-    if re.match(r'^(?:https?:)?//', path):
+    if re.match(r'^(?:[a-zA-Z][a-zA-Z0-9+-.]*:)?//', path):
         return path
     if isinstance(base, bytes):
         base = base.decode('utf-8')
