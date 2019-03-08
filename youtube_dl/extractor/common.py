@@ -17,6 +17,7 @@ import math
 from ..compat import (
     compat_cookiejar,
     compat_cookies,
+    compat_etree_Element,
     compat_etree_fromstring,
     compat_getpass,
     compat_integer_types,
@@ -102,10 +103,23 @@ class InfoExtractor(object):
                     from worst to best quality.
 
                     Potential fields:
-                    * url        Mandatory. The URL of the video file
+                    * url        The mandatory URL representing the media:
+                                   for plain file media - HTTP URL of this file,
+                                   for RTMP - RTMP URL,
+                                   for HLS - URL of the M3U8 media playlist,
+                                   for HDS - URL of the F4M manifest,
+                                   for DASH - URL of the MPD manifest or
+                                              base URL representing the media
+                                              if MPD manifest is parsed from
+                                              a string,
+                                   for MSS - URL of the ISM manifest.
                     * manifest_url
                                  The URL of the manifest file in case of
-                                 fragmented media (DASH, hls, hds)
+                                 fragmented media:
+                                   for HLS - URL of the M3U8 master playlist,
+                                   for HDS - URL of the F4M manifest,
+                                   for DASH - URL of the MPD manifest,
+                                   for MSS - URL of the ISM manifest.
                     * ext        Will be calculated from URL if missing
                     * format     A human-readable description of the format
                                  ("mp4 container with h264/opus").
@@ -788,7 +802,7 @@ class InfoExtractor(object):
             fatal=True, encoding=None, data=None, headers={}, query={},
             expected_status=None):
         """
-        Return a tuple (xml as an xml.etree.ElementTree.Element, URL handle).
+        Return a tuple (xml as an compat_etree_Element, URL handle).
 
         See _download_webpage docstring for arguments specification.
         """
@@ -809,7 +823,7 @@ class InfoExtractor(object):
             transform_source=None, fatal=True, encoding=None,
             data=None, headers={}, query={}, expected_status=None):
         """
-        Return the xml as an xml.etree.ElementTree.Element.
+        Return the xml as an compat_etree_Element.
 
         See _download_webpage docstring for arguments specification.
         """
@@ -1454,6 +1468,9 @@ class InfoExtractor(object):
     def _parse_f4m_formats(self, manifest, manifest_url, video_id, preference=None, f4m_id=None,
                            transform_source=lambda s: fix_xml_ampersands(s).strip(),
                            fatal=True, m3u8_id=None):
+        if not isinstance(manifest, compat_etree_Element) and not fatal:
+            return []
+
         # currently youtube-dl cannot decode the playerVerificationChallenge as Akamai uses Adobe Alchemy
         akamai_pv = manifest.find('{http://ns.adobe.com/f4m/1.0}pv-2.0')
         if akamai_pv is not None and ';' in akamai_pv.text:
@@ -2120,7 +2137,8 @@ class InfoExtractor(object):
                         bandwidth = int_or_none(representation_attrib.get('bandwidth'))
                         f = {
                             'format_id': '%s-%s' % (mpd_id, representation_id) if mpd_id else representation_id,
-                            'url': base_url,
+                            # NB: mpd_url may be empty when MPD manifest is parsed from a string
+                            'url': mpd_url or base_url,
                             'manifest_url': mpd_url,
                             'ext': mimetype2ext(mime_type),
                             'width': int_or_none(representation_attrib.get('width')),
