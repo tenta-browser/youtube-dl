@@ -44,6 +44,7 @@ from ..utils import (
     compiled_regex_type,
     determine_ext,
     determine_protocol,
+    dict_get,
     error_to_compat_str,
     ExtractorError,
     extract_attributes,
@@ -56,13 +57,16 @@ from ..utils import (
     JSON_LD_RE,
     mimetype2ext,
     orderedSet,
+    parse_bitrate,
     parse_codecs,
     parse_duration,
     parse_iso8601,
     parse_m3u8_attributes,
+    parse_resolution,
     RegexNotFoundError,
     sanitized_Request,
     sanitize_filename,
+    str_or_none,
     unescapeHTML,
     unified_strdate,
     unified_timestamp,
@@ -108,10 +112,13 @@ class InfoExtractor(object):
                                    for RTMP - RTMP URL,
                                    for HLS - URL of the M3U8 media playlist,
                                    for HDS - URL of the F4M manifest,
-                                   for DASH - URL of the MPD manifest or
-                                              base URL representing the media
-                                              if MPD manifest is parsed from
-                                              a string,
+                                   for DASH
+                                     - HTTP URL to plain file media (in case of
+                                       unfragmented media)
+                                     - URL of the MPD manifest or base URL
+                                       representing the media if MPD manifest
+                                       is parsed froma string (in case of
+                                       fragmented media)
                                    for MSS - URL of the ISM manifest.
                     * manifest_url
                                  The URL of the manifest file in case of
@@ -2137,8 +2144,6 @@ class InfoExtractor(object):
                         bandwidth = int_or_none(representation_attrib.get('bandwidth'))
                         f = {
                             'format_id': '%s-%s' % (mpd_id, representation_id) if mpd_id else representation_id,
-                            # NB: mpd_url may be empty when MPD manifest is parsed from a string
-                            'url': mpd_url or base_url,
                             'manifest_url': mpd_url,
                             'ext': mimetype2ext(mime_type),
                             'width': int_or_none(representation_attrib.get('width')),
@@ -2277,10 +2282,14 @@ class InfoExtractor(object):
                                     fragment['duration'] = segment_duration
                                 fragments.append(fragment)
                             representation_ms_info['fragments'] = fragments
-                        # NB: MPD manifest may contain direct URLs to unfragmented media.
-                        # No fragments key is present in this case.
+                        # If there is a fragments key available then we correctly recognized fragmented media.
+                        # Otherwise we will assume unfragmented media with direct access. Technically, such
+                        # assumption is not necessarily correct since we may simply have no support for
+                        # some forms of fragmented media renditions yet, but for now we'll use this fallback.
                         if 'fragments' in representation_ms_info:
                             f.update({
+                                # NB: mpd_url may be empty when MPD manifest is parsed from a string
+                                'url': mpd_url or base_url,
                                 'fragment_base_url': base_url,
                                 'fragments': [],
                                 'protocol': 'http_dash_segments',
@@ -2291,6 +2300,10 @@ class InfoExtractor(object):
                                     f['url'] = initialization_url
                                 f['fragments'].append({location_key(initialization_url): initialization_url})
                             f['fragments'].extend(representation_ms_info['fragments'])
+                        else:
+                            # Assuming direct URL to unfragmented media.
+                            f['url'] = base_url
+
                         # According to [1, 5.3.5.2, Table 7, page 35] @id of Representation
                         # is not necessarily unique within a Period thus formats with
                         # the same `format_id` are quite possible. There are numerous examples
@@ -2472,18 +2485,43 @@ class InfoExtractor(object):
             media_info['thumbnail'] = absolute_url(media_attributes.get('poster'))
             if media_content:
                 for source_tag in re.findall(r'<source[^>]+>', media_content):
-                    source_attributes = extract_attributes(source_tag)
-                    src = source_attributes.get('src')
+                    s_attr = extract_attributes(source_tag)
+                    # data-video-src and data-src are non standard but seen
+                    # several times in the wild
+                    src = dict_get(s_attr, ('src', 'data-video-src', 'data-src'))
                     if not src:
                         continue
-                    f = parse_content_type(source_attributes.get('type'))
+                    f = parse_content_type(s_attr.get('type'))
                     is_plain_url, formats = _media_formats(src, media_type, f)
                     if is_plain_url:
-                        # res attribute is not standard but seen several times
-                        # in the wild
+                        # width, height, res, label and title attributes are
+                        # all not standard but seen several times in the wild
+                        labels = [
+                            s_attr.get(lbl)
+                            for lbl in ('label', 'title')
+                            if str_or_none(s_attr.get(lbl))
+                        ]
+                        width = int_or_none(s_attr.get('width'))
+                        height = (int_or_none(s_attr.get('height')) or
+                                  int_or_none(s_attr.get('res')))
+                        if not width or not height:
+                            for lbl in labels:
+                                resolution = parse_resolution(lbl)
+                                if not resolution:
+                                    continue
+                                width = width or resolution.get('width')
+                                height = height or resolution.get('height')
+                        for lbl in labels:
+                            tbr = parse_bitrate(lbl)
+                            if tbr:
+                                break
+                        else:
+                            tbr = None
                         f.update({
-                            'height': int_or_none(source_attributes.get('res')),
-                            'format_id': source_attributes.get('label'),
+                            'width': width,
+                            'height': height,
+                            'tbr': tbr,
+                            'format_id': s_attr.get('label') or s_attr.get('title'),
                         })
                         f.update(formats[0])
                         media_info['formats'].append(f)

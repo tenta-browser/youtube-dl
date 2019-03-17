@@ -39,7 +39,6 @@ from .amcnetworks import AMCNetworksIE
 from .americastestkitchen import AmericasTestKitchenIE
 from .animeondemand import AnimeOnDemandIE
 from .anvato import AnvatoIE
-from .anysex import AnySexIE
 from .aol import AolIE
 from .allocine import AllocineIE
 from .aliexpress import AliExpressLiveIE
@@ -1448,12 +1447,13 @@ from .yahoo import (
     YahooIE,
     YahooSearchIE,
 )
+from .yandexdisk import YandexDiskIE
 from .yandexmusic import (
     YandexMusicTrackIE,
     YandexMusicAlbumIE,
     YandexMusicPlaylistIE,
 )
-from .yandexdisk import YandexDiskIE
+from .yandexvideo import YandexVideoIE
 from .yapfiles import YapFilesIE
 from .yesjapan import YesJapanIE
 from .yinyuetai import YinYueTaiIE
