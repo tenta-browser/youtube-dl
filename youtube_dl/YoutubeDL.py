@@ -896,6 +896,8 @@ class YoutubeDL(object):
             return self.process_ie_result(
                 new_result, download=download, extra_info=extra_info)
         elif result_type in ('playlist', 'multi_video'):
+            raise Exception('Playlists and multi video results are not supported!')
+
             # We process each entry in the playlist
             playlist = ie_result.get('title') or ie_result.get('id')
             self.to_screen('[download] Downloading playlist: %s' % playlist)
