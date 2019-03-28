@@ -382,8 +382,8 @@ class YoutubeIE(YoutubeBaseInfoExtractor):
                             WL                                                # WL are handled by the watch later IE
                         )
                      )
-                     (?(1).+)?                                                # if we found the ID, everything can follow
-                     $""" % {'playlist_id': YoutubeBaseInfoExtractor._PLAYLIST_ID_RE}
+                     #(?(1).+)?                                                # if we found the ID, everything can follow
+                     """ % {'playlist_id': YoutubeBaseInfoExtractor._PLAYLIST_ID_RE}
     _NEXT_URL_RE = r'[\?&]next_url=([^&]+)'
     _formats = {
         '5': {'ext': 'flv', 'width': 400, 'height': 240, 'acodec': 'mp3', 'abr': 64, 'vcodec': 'h263'},
