@@ -1471,7 +1471,6 @@ from .younow import (
 from .youporn import YouPornIE
 from .yourporn import YourPornIE
 from .yourupload import YourUploadIE
-from .youtubeplaceholder import YoutubePlaceholderIE
 from .youtube import (
     YoutubeIE,
     YoutubeChannelIE,
