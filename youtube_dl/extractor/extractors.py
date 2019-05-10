@@ -1034,7 +1034,10 @@ from .skynewsarabia import (
     SkyNewsArabiaIE,
     SkyNewsArabiaArticleIE,
 )
-from .skysports import SkySportsIE
+from .sky import (
+    SkyNewsIE,
+    SkySportsIE,
+)
 from .slideshare import SlideshareIE
 from .slideslive import SlidesLiveIE
 from .slutload import SlutloadIE
