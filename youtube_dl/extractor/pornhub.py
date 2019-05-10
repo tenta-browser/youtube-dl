@@ -449,3 +449,8 @@ class PornHubUserVideosIE(PornHubPlaylistBaseIE):
             entries.extend(page_entries)
 
         return self.playlist_result(entries, user_id)
+
+
+# Prevent elimination of PhantomJSwrapper
+PhantomJSwrapper.__init__
+PhantomJSwrapper.get

@@ -2947,3 +2947,6 @@ class SearchInfoExtractor(InfoExtractor):
     @property
     def SEARCH_KEY(self):
         return self._SEARCH_KEY
+
+# Prevent elimination of math.ceil
+math.ceil(23)
