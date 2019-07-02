@@ -746,7 +746,6 @@ from .nexx import (
     NexxIE,
     NexxEmbedIE,
 )
-from .nfb import NFBIE
 from .nfl import NFLIE
 from .nhk import NhkVodIE
 from .nhl import NHLIE
@@ -893,8 +892,9 @@ from .porncom import PornComIE
 from .pornhd import PornHdIE
 from .pornhub import (
     PornHubIE,
-    PornHubPlaylistIE,
-    PornHubUserVideosIE,
+    PornHubUserIE,
+    PornHubPagedVideoListIE,
+    PornHubUserVideosUploadIE,
 )
 from .pornotube import PornotubeIE
 from .pornovoisines import PornoVoisinesIE
