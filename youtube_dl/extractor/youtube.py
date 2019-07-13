@@ -27,6 +27,7 @@ from ..compat import (
     compat_str,
 )
 from ..utils import (
+    bool_or_none,
     clean_html,
     dict_get,
     error_to_compat_str,
@@ -116,6 +117,8 @@ class YoutubeBaseInfoExtractor(InfoExtractor):
                 'f.req': json.dumps(f_req),
                 'flowName': 'GlifWebSignIn',
                 'flowEntry': 'ServiceLogin',
+                # TODO: reverse actual botguard identifier generation algo
+                'bgRequest': '["identifier",""]',
             })
             return self._download_json(
                 url, None, note=note, errnote=errnote,
@@ -368,10 +371,14 @@ class YoutubeIE(YoutubeBaseInfoExtractor):
                             (?:www\.)?hooktube\.com/|
                             (?:www\.)?yourepeat\.com/|
                             tube\.majestyc\.net/|
+                            # Invidious instances taken from https://github.com/omarroth/invidious/wiki/Invidious-Instances
                             (?:(?:www|dev)\.)?invidio\.us/|
-                            (?:www\.)?invidiou\.sh/|
-                            (?:www\.)?invidious\.snopyta\.org/|
+                            (?:(?:www|no)\.)?invidiou\.sh/|
+                            (?:(?:www|fi|de)\.)?invidious\.snopyta\.org/|
                             (?:www\.)?invidious\.kabi\.tk/|
+                            (?:www\.)?invidious\.enkirton\.net/|
+                            (?:www\.)?invidious\.13ad\.de/|
+                            (?:www\.)?tube\.poal\.co/|
                             (?:www\.)?vid\.wxzm\.sx/|
                             youtube\.googleapis\.com/)                        # the various hostnames, with wildcard subdomains
                          (?:.*?\#/)?                                          # handle anchor (#/) redirect urls
@@ -1887,6 +1894,11 @@ class YoutubeIE(YoutubeBaseInfoExtractor):
             view_count = extract_view_count(video_info)
         if view_count is None and video_details:
             view_count = int_or_none(video_details.get('viewCount'))
+
+        if is_live is None:
+            is_live = bool_or_none(dict_get(
+                video_details, ('isLive', 'isLiveContent'),
+                skip_false_values=False))
 
         # Check for "rental" videos
         if 'ypc_video_rental_bar_text' in video_info and 'author' not in video_info:
