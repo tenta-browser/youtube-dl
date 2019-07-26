@@ -1451,6 +1451,7 @@ from .yahoo import (
     YahooSearchIE,
     YahooGyaOPlayerIE,
     YahooGyaOIE,
+    YahooJapanNewsIE,
 )
 from .yandexdisk import YandexDiskIE
 from .yandexmusic import (
