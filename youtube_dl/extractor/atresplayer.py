@@ -49,7 +49,7 @@ class AtresPlayerIE(InfoExtractor):
             if error.get('error') == 'required_registered':
                 self.raise_login_required()
             raise ExtractorError(error['error_description'], expected=True)
-        raise
+        raise e
 
     def _login(self):
         username, password = self._get_login_info()
