@@ -499,8 +499,8 @@ class VKUserVideosIE(VKBaseIE):
         'url': 'http://new.vk.com/videos205387401',
         'only_matching': True,
     }]
-    _VIDEO = collections.namedtuple(
-        'Video', ['owner_id', 'id', 'thumb', 'title', 'flags', 'duration', 'hash', 'moder_acts', 'owner', 'date', 'views', 'platform', 'blocked', 'music_video_meta'])
+    #_VIDEO = collections.namedtuple(
+    #    'Video', ['owner_id', 'id', 'thumb', 'title', 'flags', 'duration', 'hash', 'moder_acts', 'owner', 'date', 'views', 'platform', 'blocked', 'music_video_meta'])
 
     def _real_extract(self, url):
         page_id = self._match_id(url)
@@ -581,8 +581,8 @@ class VKWallPostIE(VKBaseIE):
         'only_matching': True,
     }]
     _BASE64_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN0PQRSTUVWXYZO123456789+/='
-    _AUDIO = collections.namedtuple(
-        'Audio', ['id', 'owner_id', 'url', 'title', 'performer', 'duration', 'album_id', 'unk', 'author_link', 'lyrics', 'flags', 'context', 'extra', 'hashes', 'cover_url', 'ads', 'subtitle', 'main_artists', 'feat_artists', 'album', 'track_code', 'restriction', 'album_part', 'new_stats', 'access_key'])
+    #_AUDIO = collections.namedtuple(
+    #    'Audio', ['id', 'owner_id', 'url', 'title', 'performer', 'duration', 'album_id', 'unk', 'author_link', 'lyrics', 'flags', 'context', 'extra', 'hashes', 'cover_url', 'ads', 'subtitle', 'main_artists', 'feat_artists', 'album', 'track_code', 'restriction', 'album_part', 'new_stats', 'access_key'])
 
     def _decode(self, enc):
         dec = ''
