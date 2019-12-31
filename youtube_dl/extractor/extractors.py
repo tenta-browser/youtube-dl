@@ -964,7 +964,10 @@ from .savefrom import SaveFromIE
 from .sbs import SBSIE
 from .screencast import ScreencastIE
 from .screencastomatic import ScreencastOMaticIE
-from .scrippsnetworks import ScrippsNetworksWatchIE
+from .scrippsnetworks import (
+    ScrippsNetworksWatchIE,
+    ScrippsNetworksIE,
+)
 from .scte import (
     SCTEIE,
     SCTECourseIE,
