@@ -1182,14 +1182,14 @@ class InfoExtractor(object):
                                       'twitter card player')
 
     def _search_json_ld(self, html, video_id, expected_type=None, **kwargs):
-        json_ld_list = list(re.finditer(JSON_LD_RE, html))
+        json_ld_it = re.finditer(JSON_LD_RE, html)
         default = kwargs.get('default', NO_DEFAULT)
         # JSON-LD may be malformed and thus `fatal` should be respected.
         # At the same time `default` may be passed that assumes `fatal=False`
         # for _search_regex. Let's simulate the same behavior here as well.
         fatal = kwargs.get('fatal', True) if default == NO_DEFAULT else False
         json_ld = []
-        for mobj in json_ld_list:
+        for mobj in json_ld_it:
             json_ld_item = self._parse_json(
                 mobj.group('json_ld'), video_id, fatal=fatal)
             if not json_ld_item:
