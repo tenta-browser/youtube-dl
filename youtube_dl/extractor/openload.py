@@ -19,7 +19,12 @@ from ..utils import (
     std_headers,
 )
 
-from lib.browser import BrowserWrapper
+try:
+    from lib.browser import BrowserWrapper
+except ImportError:
+    class BrowserWrapper:
+        def __init__(self): pass
+        def get(self): pass
 
 
 def cookie_to_dict(cookie):
